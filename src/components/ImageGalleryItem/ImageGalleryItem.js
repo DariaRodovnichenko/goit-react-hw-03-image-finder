@@ -1,28 +1,33 @@
-import { CustomModal } from 'components/Modal/Modal';
 import { Component } from 'react';
+import { Modal } from 'components/Modal/Modal';
 import { GalleryImg, ImgGalleryItem } from './ImageGalleryItem.styled';
 
 export class ImageGalleryItem extends Component {
   state = {
-    showModal: false,
+    isModalOpen: false,
+    selectedImage: null,
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
+  toggleModal = image => {
+    this.setState(prevState => ({
+      isModalOpen: !prevState.isModalOpen,
+      selectedImage: prevState.isModalOpen ? null : image.largeImageURL,
     }));
   };
 
   render() {
     const { image } = this.props;
+    const { isModalOpen, selectedImage } = this.state;
+
     return (
-      <ImgGalleryItem onClick={this.toggleModal}>
+      <ImgGalleryItem onClick={() => this.toggleModal(image)}>
         <GalleryImg src={image.webformatURL} alt={image.tags} />
-        {this.state.showModal && (
-          <CustomModal
-            largeImageURL={image.largeImageURL}
-            tags={image.tags}
-            onClose={this.toggleModal}
+        {isModalOpen && (
+          <Modal
+            isOpen={isModalOpen}
+            closeModal={() => this.toggleModal(image)}
+            selectedImage={selectedImage}
+            alt={image.tags}
           />
         )}
       </ImgGalleryItem>

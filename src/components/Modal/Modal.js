@@ -1,16 +1,28 @@
-import Modal from 'react-modal';
+import { useState, useEffect } from 'react';
+import { CustomModal } from './Modal.styled';
 
-Modal.setAppElement('#root');
+CustomModal.setAppElement('#root');
 
-export const CustomModal = ({ isOpen, closeModal, contentLabel, children }) => {
+export const Modal = ({ isOpen, closeModal, selectedImage, alt }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  useEffect(() => {
+    setModalIsOpen(isOpen);
+  }, [isOpen]);
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    closeModal();
+  };
+
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      contentLabel={contentLabel}
+    <CustomModal
+      isOpen={modalIsOpen}
+      onRequestClose={handleCloseModal}
+      contentLabel="Image Modal"
+      shouldCloseOnOverlayClick={true}
     >
-      {children}
-      <button onClick={closeModal}>Close Modal</button>
-    </Modal>
+      <img src={selectedImage} alt={alt} />
+    </CustomModal>
   );
 };

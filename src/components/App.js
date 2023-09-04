@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -75,7 +75,7 @@ export class App extends Component {
     }
   };
 
-  render() {
+    render() {
     const { images, isLoading, error, page, totalPages } = this.state;
 
     return (
